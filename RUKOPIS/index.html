@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rukopis Studio — Weby na míru pro lokální firmy</title>
+  <meta name="description" content="Rukopis Studio tvoří weby na míru pro lokální firmy v celém Česku. Ukázku uvidíte zdarma, ještě než se rozhodnete.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://rukopis-web.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rukopis-web.vercel.app/">
+  <meta property="og:title" content="Rukopis Studio — Weby na míru pro lokální firmy">
+  <meta property="og:description" content="Tvoříme weby pro lokální firmy, které mají skvělou pověst — a web, co jim nedělá čest. Na míru, rychlé, k nalezení.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Rukopis Studio",
+    "description": "Web design studio specializující se na weby na míru pro lokální firmy v České republice.",
+    "email": "hajekjan96@gmail.com",
+    "telephone": "+420731502722",
+    "url": "https://rukopis-web.vercel.app/",
+    "areaServed": { "@type": "Country", "name": "CZ" },
+    "serviceType": "Web Design",
+    "priceRange": "$$"
+  }
+  </script>
+
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --accent:       #15CEC5;
+      --accent-60:    rgba(21,206,197,.60);
+      --accent-25:    rgba(21,206,197,.25);
+      --accent-14:    rgba(21,206,197,.14);
+      --accent-08:    rgba(21,206,197,.08);
+      --accent-04:    rgba(21,206,197,.04);
+
+      --bg:           #0B0C0E;
+      --bg-2:         #0E1012;
+      --bg-3:         #131518;
+      --bg-4:         #191C20;
+
+      --text:         #EFF0F2;
+      --text-2:       #9AA3B0;
+      --text-3:       #52596A;
+      --text-4:       #2E333D;
+
+      --border:       rgba(255,255,255,.06);
+      --border-md:    rgba(255,255,255,.10);
+      --border-accent: rgba(21,206,197,.22);
+
+      --font: 'Manrope', system-ui, -apple-system, sans-serif;
+
+      --ease-out: cubic-bezier(.22,.68,0,1.2);
+      --ease-smooth: cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    ul, ol { list-style: none; }
+    input, textarea, select { font-family: inherit; }
+
+    /* ── ACCESSIBILITY ──────────────────────────────────── */
+    .sr-only {
+      position: absolute; width:1px; height:1px;
+      padding:0; margin:-1px; overflow:hidden;
+      clip:rect(0,0,0,0); white-space:nowrap; border:0;
+    }
+    .skip-link {
+      position: absolute; top: -100%; left: 16px;
+      background: var(--accent); color: var(--bg);
+      padding: 8px 16px; font-size: 14px; font-weight: 600;
+      z-index: 9999; transition: top .2s;
+    }
+    .skip-link:focus { top: 16px; }
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    /* ── TYPOGRAPHY ─────────────────────────────────────── */
+    .t-label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--accent);
+    }
+    .t-h1 {
+      font-size: clamp(38px, 6vw, 76px);
+      font-weight: 700; line-height: 1.06; letter-spacing: -.02em;
+    }
+    .t-h2 {
+      font-size: clamp(28px, 3.6vw, 48px);
+      font-weight: 700; line-height: 1.15; letter-spacing: -.02em;
+    }
+    .t-h3 {
+      font-size: clamp(18px, 2vw, 22px);
+      font-weight: 600; line-height: 1.3; letter-spacing: -.01em;
+    }
+    .t-body { font-size: 16px; line-height: 1.75; color: var(--text-2); }
+    .t-small { font-size: 14px; line-height: 1.65; color: var(--text-2); }
+
+    /* ── LAYOUT ─────────────────────────────────────────── */
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 0 40px; }
+    .wrap-narrow { max-width: 760px; margin: 0 auto; padding: 0 40px; }
+    .section { padding: 112px 0; }
+    .section-sm { padding: 72px 0; }
+
+    /* ── BUTTONS ─────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px;
+      font-size: 14px; font-weight: 600; letter-spacing: .01em;
+      border-radius: 6px; transition: all .2s var(--ease-smooth);
+    }
+    .btn-primary {
+      background: var(--accent); color: var(--bg);
+    }
+    .btn-primary:hover { background: #1ae5db; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(21,206,197,.25); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-ghost {
+      border: 1px solid var(--border-md); color: var(--text-2);
+    }
+    .btn-ghost:hover { border-color: var(--border-accent); color: var(--accent); }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 90;
+      padding: 22px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: padding .35s var(--ease-smooth), background .35s, border-color .35s;
+      border-bottom: 1px solid transparent;
+    }
+    .nav.is-scrolled {
+      padding: 14px 40px;
+      background: rgba(11,12,14,.88);
+      backdrop-filter: blur(20px) saturate(140%);
+      border-color: var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo img { width: 34px; height: 34px; object-fit: contain; }
+    .nav-links {
+      display: flex; align-items: center; gap: 32px;
+    }
+    .nav-links a {
+      font-size: 13px; font-weight: 500; color: var(--text-3);
+      transition: color .2s; padding: 4px 0;
+      border-bottom: 1px solid transparent;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { font-size: 13px; padding: 10px 22px; }
+    .nav-toggle {
+      display: none; flex-direction: column; gap: 5px;
+      padding: 6px; width: 36px;
+    }
+    .nav-toggle span {
+      display: block; height: 1.5px; background: var(--text-2);
+      transition: all .25s;
+    }
+    .nav-mobile {
+      display: none; position: fixed; inset: 0; z-index: 89;
+      background: var(--bg); flex-direction: column;
+      align-items: center; justify-content: center; gap: 28px;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+    }
+    .nav-mobile.is-open { opacity: 1; pointer-events: all; }
+    .nav-mobile a { font-size: 24px; font-weight: 600; color: var(--text-2); transition: color .2s; }
+    .nav-mobile a:hover { color: var(--accent); }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    .hero {
+      position: relative; min-height: 100svh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; overflow: hidden;
+      padding: 140px 40px 100px;
+    }
+    #hero-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+    .hero-glow {
+      position: absolute;
+      left: -4%; right: -4%; bottom: -4%;
+      height: 55%;
+      background: radial-gradient(ellipse at 50% 100%,
+        rgba(21,206,197,.16) 0%,
+        rgba(21,206,197,.05) 40%,
+        transparent 68%);
+      pointer-events: none; z-index: 0;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 820px;
+    }
+    .hero-logo {
+      width: clamp(260px, 29vw, 350px); height: auto;
+      margin: 0 auto -4px;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: ''; flex: 1; display: inline-block;
+      width: 24px; height: 1px; background: var(--accent); opacity: .5;
+    }
+    .hero h1 {
+      font-size: clamp(30px, 4.5vw, 56px);
+      font-weight: 700; line-height: 1.04; letter-spacing: -.025em;
+      margin-bottom: 16px;
+    }
+    .motto-line-wrap { position: relative; display: block; overflow: visible; }
+    .motto-line      { display: block; clip-path: inset(0 100% 0 0); }
+    .motto-tip {
+      position: absolute; top: 4%; left: 0;
+      width: 3px; height: 92%; border-radius: 2px;
+      background: linear-gradient(to bottom,
+        transparent 0%,
+        rgba(255,255,255,.95) 35%,
+        rgba(21,206,197,.85) 65%,
+        transparent 100%);
+      filter: blur(2px);
+      opacity: 0; pointer-events: none;
+    }
+    @keyframes line-write {
+      from { clip-path: inset(0 100% 0 0); }
+      to   { clip-path: inset(0 0% 0 0); }
+    }
+    .hero-sub {
+      font-size: clamp(13px, 1.35vw, 15px);
+      color: var(--text-2); line-height: 1.75;
+      max-width: 460px; margin: 0 auto 32px;
+    }
+    .hero-actions {
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+    }
+    .hero-scroll {
+      position: absolute; bottom: 32px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center;
+      gap: 6px; z-index: 2;
+      color: var(--text-4); font-size: 10px; font-weight: 600;
+      letter-spacing: .2em; text-transform: uppercase;
+    }
+    .hero-scroll-line {
+      width: 1px; height: 32px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scroll-line 2s ease-in-out infinite;
+    }
+    @keyframes scroll-line {
+      0%,100% { transform: scaleY(1); opacity: .6; }
+      50%      { transform: scaleY(.7); opacity: 1; }
+    }
+
+    /* ── PROBLEM SECTION ────────────────────────────────── */
+    .problem {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .problem-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .problem-left { }
+    .problem-headline {
+      font-size: clamp(26px, 3.2vw, 42px);
+      font-weight: 700; line-height: 1.15; letter-spacing: -.02em;
+      margin-bottom: 20px;
+    }
+    .problem-headline em { font-style: normal; color: var(--accent); }
+    .problem-body { font-size: 16px; color: var(--text-2); line-height: 1.8; margin-bottom: 24px; }
+    .problem-resolution {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 14px; font-weight: 600; color: var(--accent);
+    }
+    .problem-resolution::before {
+      content: ''; display: block; width: 20px; height: 1px; background: var(--accent);
+    }
+    .problem-right { }
+    .problem-cases { display: flex; flex-direction: column; gap: 1px; }
+    .case-item {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      padding: 24px 28px;
+      display: grid; grid-template-columns: 44px 1fr;
+      gap: 18px; align-items: center;
+      transition: border-color .2s, transform .2s var(--ease-smooth);
+    }
+    .case-item:hover { border-color: var(--border-accent); transform: translateX(4px); }
+    .case-icon, .feature-icon, .pricing-icon {
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); border: 1px solid var(--border-accent);
+      background: var(--accent-04);
+      box-shadow: 0 0 28px rgba(21,206,197,.08);
+    }
+    .case-icon { width: 44px; height: 44px; border-radius: 50%; }
+    .case-icon svg, .feature-icon svg, .pricing-icon svg {
+      width: 19px; height: 19px; fill: none; stroke: currentColor;
+      stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .case-type {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 4px; opacity: .8;
+    }
+    .case-desc { font-size: 14px; color: var(--text-2); line-height: 1.65; }
+
+    /* ── PROCESS SECTION ────────────────────────────────── */
+    .process-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: end; margin-bottom: 72px;
+    }
+    .process-steps { display: flex; flex-direction: column; gap: 0; }
+    .process-step {
+      display: grid; grid-template-columns: 80px 1fr;
+      gap: 32px; align-items: start;
+      padding: 36px 0;
+      border-bottom: 1px solid var(--border);
+      transition: background .2s;
+    }
+    .process-step:first-child { border-top: 1px solid var(--border); }
+    .process-num {
+      font-size: 42px; font-weight: 700;
+      color: var(--text-4); letter-spacing: -.03em;
+      line-height: 1; padding-top: 4px;
+      transition: color .2s;
+    }
+    .process-step:hover .process-num { color: var(--accent); }
+    .process-step-body { }
+    .process-step-tag {
+      display: inline-flex; align-items: center;
+      background: var(--accent-08); border: 1px solid var(--border-accent);
+      color: var(--accent); font-size: 11px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 3px;
+      margin-bottom: 10px;
+    }
+    .process-step h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .process-step p { font-size: 15px; color: var(--text-2); line-height: 1.75; }
+
+    /* ── FEATURES SECTION ───────────────────────────────── */
+    .features {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .features-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: end; margin-bottom: 64px;
+    }
+    .features-list { }
+    .feature-row {
+      display: grid; grid-template-columns: 44px 200px 1fr;
+      gap: 24px 32px; align-items: baseline;
+      padding: 26px 0; border-bottom: 1px solid var(--border);
+    }
+    .feature-row:first-child { border-top: 1px solid var(--border); }
+    .feature-icon { width: 40px; height: 40px; border-radius: 10px; align-self: center; }
+    .feature-name {
+      font-size: 15px; font-weight: 600; color: var(--text);
+    }
+    .feature-desc {
+      font-size: 14px; color: var(--text-2); line-height: 1.7;
+    }
+
+    /* ── STUDIO SECTION ─────────────────────────────────── */
+    .studio { position: relative; overflow: hidden; }
+    .studio-inner {
+      max-width: 900px; margin: 0 auto;
+      text-align: center; position: relative; z-index: 1;
+    }
+    .studio-quote {
+      font-size: clamp(22px, 3vw, 36px);
+      font-weight: 600; line-height: 1.45; letter-spacing: -.01em;
+      color: var(--text); margin-bottom: 28px;
+    }
+    .studio-quote em { font-style: normal; color: var(--accent); }
+    .studio-body {
+      font-size: 17px; color: var(--text-2); line-height: 1.8;
+      max-width: 620px; margin: 0 auto;
+    }
+    .studio-glow {
+      position: absolute;
+      left: -4%; right: -4%; top: -20%;
+      height: 140%;
+      background: radial-gradient(ellipse at 50% 40%,
+        rgba(21,206,197,.09) 0%,
+        rgba(21,206,197,.03) 35%,
+        transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── STYLES SECTION ─────────────────────────────────── */
+    .styles-header { margin-bottom: 56px; }
+    .styles-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .style-card {
+      border: 1px solid var(--border);
+      background: var(--bg-2);
+      overflow: hidden;
+      transition: border-color .25s, transform .25s var(--ease-out);
+    }
+    .style-card:hover { border-color: var(--border-accent); transform: translateY(-4px); }
+    .style-preview {
+      height: 180px; position: relative; overflow: hidden;
+    }
+    .style-preview-editorial {
+      background: #0f0f0f;
+    }
+    .style-preview-editorial::after {
+      content: '';
+      position: absolute; left: 28px; right: 28px; top: 50%;
+      transform: translateY(-50%);
+      height: 1px; background: rgba(255,255,255,.12);
+      box-shadow: 0 -20px 0 rgba(255,255,255,.06), 0 20px 0 rgba(255,255,255,.06);
+    }
+    .style-preview-editorial-lines {
+      position: absolute; left: 28px; top: 50%; transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .ep-line { height: 1px; background: rgba(255,255,255,.15); }
+    .ep-l1 { width: 100px; }
+    .ep-l2 { width: 148px; }
+    .ep-l3 { width: 72px; }
+
+    .style-preview-warm {
+      background: linear-gradient(145deg, #120d08, #1c1108);
+    }
+    .style-preview-warm-inner {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .wp-circle {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(220,150,70,.25) 0%, transparent 70%);
+      border: 1px solid rgba(220,150,70,.25);
+    }
+
+    .style-preview-sharp {
+      background: linear-gradient(145deg, #080c12, #0c1018);
+    }
+    .style-preview-sharp-inner {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sp-shape {
+      width: 56px; height: 56px;
+      border-left: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      background: linear-gradient(135deg, rgba(21,206,197,.12) 0%, transparent 60%);
+    }
+
+    .style-body { padding: 24px 24px 28px; }
+    .style-label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px; opacity: .85;
+    }
+    .style-body h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .style-body p { font-size: 13px; color: var(--text-2); line-height: 1.7; }
+    .style-tags {
+      display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px;
+    }
+    .style-tag {
+      font-size: 11px; color: var(--text-3);
+      border: 1px solid var(--border); padding: 3px 8px;
+      border-radius: 3px;
+    }
+
+    /* ── PRICING SECTION ────────────────────────────────── */
+    .pricing {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .pricing-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .pricing-right { }
+    .pricing-block {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px;
+      margin-bottom: 16px;
+      display: grid; grid-template-columns: 44px 1fr; gap: 18px;
+      align-items: start;
+    }
+    .pricing-block:last-child { margin-bottom: 0; }
+    .pricing-block-label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    .pricing-icon { width: 44px; height: 44px; border-radius: 50%; }
+    .pricing-block p { font-size: 15px; color: var(--text-2); line-height: 1.7; }
+    .pricing-block strong { color: var(--text); font-weight: 600; }
+
+    /* ── FAQ SECTION ────────────────────────────────────── */
+    .faq-header { margin-bottom: 56px; }
+    .faq-list { max-width: 760px; }
+    details { border-bottom: 1px solid var(--border); }
+    details:first-child { border-top: 1px solid var(--border); }
+    summary {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 0; gap: 20px;
+      font-size: 16px; font-weight: 500; color: var(--text);
+      cursor: pointer; list-style: none; user-select: none;
+      transition: color .2s;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary:hover { color: var(--accent); }
+    .faq-icon {
+      flex-shrink: 0; width: 22px; height: 22px;
+      border: 1px solid var(--border-md); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 15px; font-weight: 300;
+      transition: transform .25s var(--ease-smooth), border-color .2s;
+    }
+    details[open] .faq-icon { transform: rotate(45deg); border-color: var(--border-accent); }
+    .faq-answer {
+      padding: 0 40px 24px 0;
+      font-size: 15px; color: var(--text-2); line-height: 1.8;
+    }
+
+    /* ── CONTACT SECTION ────────────────────────────────── */
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1.15fr;
+      gap: 80px; align-items: start;
+    }
+    .contact-info { }
+    .contact-details { margin-top: 44px; display: flex; flex-direction: column; gap: 20px; }
+    .contact-item { display: flex; align-items: center; gap: 14px; }
+    .contact-item-icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      border: 1px solid var(--border-accent);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .contact-item-icon svg { width: 15px; height: 15px; stroke: var(--accent); fill: none; stroke-width: 1.8; }
+    .contact-item-label { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 2px; }
+    .contact-item a { font-size: 15px; color: var(--text-2); transition: color .2s; }
+    .contact-item a:hover { color: var(--accent); }
+    .contact-note {
+      margin-top: 32px; padding-top: 32px;
+      border-top: 1px solid var(--border);
+      font-size: 13px; color: var(--text-3); line-height: 1.7;
+    }
+
+    /* Form */
+    .contact-form { }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { margin-bottom: 14px; }
+    .form-label {
+      display: block; font-size: 12px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--text-3); margin-bottom: 7px;
+    }
+    .form-field {
+      width: 100%; background: var(--bg-3);
+      border: 1px solid var(--border-md); color: var(--text);
+      padding: 12px 14px; font-size: 14px; font-weight: 400;
+      border-radius: 6px; outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      -webkit-appearance: none;
+    }
+    .form-field::placeholder { color: var(--text-4); }
+    .form-field:focus {
+      border-color: var(--border-accent);
+      box-shadow: 0 0 0 3px var(--accent-04);
+    }
+    .form-field.has-error { border-color: #e05858; }
+    textarea.form-field { min-height: 110px; resize: vertical; }
+    select.form-field {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2352596A' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      cursor: pointer;
+    }
+    select.form-field option { background: #131518; }
+    .form-submit { width: 100%; justify-content: center; margin-top: 6px; padding: 14px; font-size: 14px; border-radius: 6px; }
+    .form-footer-note {
+      margin-top: 10px; text-align: center;
+      font-size: 12px; color: var(--text-4);
+    }
+    .form-state { display: none; text-align: center; padding: 40px 24px; }
+    .form-state.is-visible { display: block; }
+    .form-state-icon {
+      width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .form-state-icon.success { background: var(--accent-08); border: 1px solid var(--border-accent); }
+    .form-state-icon.error   { background: rgba(224,88,88,.08); border: 1px solid rgba(224,88,88,.25); }
+    .form-state-icon svg { width: 22px; height: 22px; stroke-width: 2; fill: none; }
+    .form-state-icon.success svg { stroke: var(--accent); }
+    .form-state-icon.error   svg { stroke: #e05858; }
+    .form-state h3 { font-size: 20px; font-weight: 600; margin-bottom: 10px; }
+    .form-state p  { font-size: 14px; color: var(--text-2); line-height: 1.7; }
+
+    /* ── CTA BANNER ─────────────────────────────────────── */
+    .cta-banner {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-banner-inner { position: relative; z-index: 1; }
+    .cta-banner h2 { font-size: clamp(26px, 4vw, 42px); font-weight: 700; letter-spacing: -.02em; margin-bottom: 14px; }
+    .cta-banner p { font-size: 16px; color: var(--text-2); margin-bottom: 36px; }
+    .cta-banner-glow {
+      position: absolute; left: -4%; right: -4%; top: -30%; bottom: -30%;
+      background: radial-gradient(ellipse at 50% 50%, rgba(21,206,197,.10) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
+    footer {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      padding: 56px 0 40px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 1fr auto auto;
+      gap: 48px; align-items: start;
+      margin-bottom: 48px;
+    }
+    .footer-brand {}
+    .footer-logo { width: 160px; height: auto; margin-bottom: 14px; opacity: .75; }
+    .footer-tagline { font-size: 13px; color: var(--text-3); line-height: 1.6; max-width: 220px; }
+    .footer-col-title {
+      font-size: 11px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--text-4); margin-bottom: 16px;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 14px; color: var(--text-3); transition: color .2s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-bottom {
+      padding-top: 28px; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-copy { font-size: 12px; color: var(--text-4); }
+    .footer-accent { font-size: 12px; color: var(--accent); opacity: .6; font-style: italic; }
+
+    /* ── SECTION DECORATIONS ─────────────────────────────── */
+    .section-num {
+      font-size: 11px; font-weight: 700; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--text-4);
+      margin-bottom: 12px;
+    }
+
+    /* ── KEYFRAMES ───────────────────────────────────────── */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in {
+      opacity: 0; animation: fade-up .6s var(--ease-smooth) forwards;
+    }
+    .animate-in.delay-1 { animation-delay: .1s; }
+    .animate-in.delay-2 { animation-delay: .2s; }
+    .animate-in.delay-3 { animation-delay: .35s; }
+
+    /* ── REDUCED MOTION ──────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+      html { scroll-behavior: auto; }
+      #hero-canvas { display: none; }
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .features-header { grid-template-columns: 1fr; gap: 32px; }
+      .feature-row { grid-template-columns: 44px 1fr; gap: 12px 20px; }
+      .feature-desc { grid-column: 2; }
+    }
+    @media (max-width: 900px) {
+      .wrap { padding: 0 24px; }
+      .wrap-narrow { padding: 0 24px; }
+      .section { padding: 80px 0; }
+      .section-sm { padding: 52px 0; }
+
+      .nav { padding: 18px 24px; }
+      .nav.is-scrolled { padding: 13px 24px; }
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      .nav-mobile { display: flex; }
+
+      .hero { padding: 120px 24px 80px; }
+      .hero-logo { width: 260px; height: auto; margin-bottom: -6px; }
+
+      .problem-grid { grid-template-columns: 1fr; gap: 48px; }
+      .process-header { grid-template-columns: 1fr; gap: 24px; margin-bottom: 48px; }
+      .process-step { grid-template-columns: 56px 1fr; gap: 20px; }
+      .process-num { font-size: 32px; }
+
+      .features-header { grid-template-columns: 1fr; }
+      .feature-row { grid-template-columns: 44px 1fr; gap: 6px 16px; padding: 20px 0; }
+      .feature-name { align-self: center; }
+      .feature-desc { grid-column: 2; }
+
+      .styles-grid { grid-template-columns: 1fr; gap: 16px; }
+
+      .pricing-inner { grid-template-columns: 1fr; gap: 48px; }
+
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+      .form-row { grid-template-columns: 1fr; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+    @media (max-width: 600px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .hero-actions .btn { width: 100%; max-width: 300px; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Přejít na hlavní obsah</a>
+
+<!-- ── NAV ────────────────────────────────────────────── -->
+<header>
+  <nav class="nav" id="nav" aria-label="Hlavní navigace">
+    <a href="#" class="nav-logo" aria-label="Rukopis Studio — domů">
+      <img src="Rukopis_symbol.png" alt="Rukopis Studio">
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="#jak">Jak to funguje</a></li>
+      <li><a href="#sluzby">Služby</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Otevřít navigaci" aria-expanded="false" id="nav-toggle">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="nav-mobile" role="dialog" aria-label="Mobilní navigace">
+    <a href="#jak" class="nav-m-link">Jak to funguje</a>
+    <a href="#sluzby" class="nav-m-link">Služby</a>
+    <a href="#faq" class="nav-m-link">FAQ</a>
+  </div>
+</header>
+
+<!-- ── MAIN ───────────────────────────────────────────── -->
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Úvod">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-content">
+      <img src="Rukopis_logo_02.png" alt="Rukopis Studio" class="hero-logo animate-in">
+      <div class="hero-eyebrow animate-in delay-1">
+        <span class="t-label">Kreativní studio — pro tvou značku</span>
+      </div>
+      <h1>Podepište se<br>svou značkou.</h1>
+      <p class="hero-sub animate-in delay-3">
+        Stavíme weby pro lokální firmy, které mají skvělou pověst
+        — a web, co jim nedělá čest. Na míru, rychlé, k nalezení.
+      </p>
+      <div class="hero-actions animate-in delay-3">
+        <a href="#kontakt" class="btn btn-primary">Chci ukázku zdarma</a>
+        <a href="#jak" class="btn btn-ghost">Jak to funguje</a>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="section problem" aria-labelledby="problem-heading">
+    <div class="wrap">
+      <div class="problem-grid">
+        <div class="problem-left">
+          <p class="t-label" style="margin-bottom:20px">Proč to řešit</p>
+          <h2 class="problem-headline" id="problem-heading">
+            Skvělá pověst.<br>
+            A web, který ji <em>shazuje.</em>
+          </h2>
+          <p class="problem-body">
+            První dojem dnes často vzniká online. Web by měl potvrdit kvalitu,
+            kterou už zákazníci znají z reality.
+          </p>
+          <span class="problem-resolution">Bez závazku. Ukázka zdarma.</span>
+        </div>
+        <div class="problem-right">
+          <div class="problem-cases" role="list">
+            <div class="case-item" role="listitem">
+              <span class="case-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V7l8-4 8 4v13M8 20v-5h8v5M9 9h.01M15 9h.01"/></svg></span>
+              <div><p class="case-type">Dobrá pověst</p><p class="case-desc">Lidé vás doporučují.</p></div>
+            </div>
+            <div class="case-item" role="listitem">
+              <span class="case-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4M11 8v6M8 11h6"/></svg></span>
+              <div><p class="case-type">Slabý web</p><p class="case-desc">Online to ale není poznat.</p></div>
+            </div>
+            <div class="case-item" role="listitem">
+              <span class="case-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg></span>
+              <div><p class="case-type">Jasná změna</p><p class="case-desc">Web začne pracovat pro vás.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section" id="jak" aria-labelledby="process-heading">
+    <div class="wrap">
+      <div class="process-header">
+        <div>
+          <p class="t-label" style="margin-bottom:16px">Jak to funguje</p>
+          <h2 class="t-h2" id="process-heading">Nejdřív uvidíte,<br>pak se rozhodnete.</h2>
+        </div>
+        <p class="t-body">
+          Začneme návrhem zdarma. Pokračujeme, jen když vám sedne.
+        </p>
+      </div>
+      <div class="process-steps" role="list">
+        <div class="process-step" role="listitem">
+          <div class="process-num" aria-hidden="true">01</div>
+          <div class="process-step-body">
+            <span class="process-step-tag">Zcela zdarma</span>
+            <h3>Ukázka bez závazku</h3>
+            <p>Připravíme první směr vašeho nového webu.</p>
+          </div>
+        </div>
+        <div class="process-step" role="listitem">
+          <div class="process-num" aria-hidden="true">02</div>
+          <div class="process-step-body">
+            <span class="process-step-tag">Foto &amp; video</span>
+            <h3>Ukážeme váš prostor v nejlepším světle</h3>
+            <p>Podle potřeby vytvoříme fotografie i video.</p>
+          </div>
+        </div>
+        <div class="process-step" role="listitem">
+          <div class="process-num" aria-hidden="true">03</div>
+          <div class="process-step-body">
+            <span class="process-step-tag">Online call</span>
+            <h3>Doladíme to společně</h3>
+            <p>Společně doladíme obsah a důležité detaily.</p>
+          </div>
+        </div>
+        <div class="process-step" role="listitem">
+          <div class="process-num" aria-hidden="true">04</div>
+          <div class="process-step-body">
+            <span class="process-step-tag">Vy nic neřešíte</span>
+            <h3>Spustíme a nastavíme</h3>
+            <p>Web spustíme na vaší doméně a vše nastavíme.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section features" id="sluzby" aria-labelledby="features-heading">
+    <div class="wrap">
+      <div class="features-header">
+        <div>
+          <p class="t-label" style="margin-bottom:16px">Co dostanete</p>
+          <h2 class="t-h2" id="features-heading">Rychlý a k nalezení.<br>To ostatní je základ.</h2>
+        </div>
+        <p class="t-body">
+          Design, technika i spuštění v jednom celku.
+        </p>
+      </div>
+      <div class="features-list" role="list">
+        <div class="feature-row" role="listitem">
+          <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 17 17 4l3 3L7 20H4v-3ZM14 7l3 3"/></svg></span>
+          <span class="feature-name">Design na míru</span>
+          <span class="feature-desc">Vizuál postavený podle charakteru vaší značky.</span>
+        </div>
+        <div class="feature-row" role="listitem">
+          <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13 2 5 14h7l-1 8 8-12h-7l1-8Z"/></svg></span>
+          <span class="feature-name">Rychlost</span>
+          <span class="feature-desc">Rychlé načítání bez zbytečné technické zátěže.</span>
+        </div>
+        <div class="feature-row" role="listitem">
+          <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M10 18h4"/></svg></span>
+          <span class="feature-name">Mobile-first</span>
+          <span class="feature-desc">Přirozené ovládání na telefonu i počítači.</span>
+        </div>
+        <div class="feature-row" role="listitem">
+          <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2"/></svg></span>
+          <span class="feature-name">Mapa a dohledatelnost</span>
+          <span class="feature-desc">Správné údaje tam, kde vás zákazníci hledají.</span>
+        </div>
+        <div class="feature-row" role="listitem">
+          <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/></svg></span>
+          <span class="feature-name">SEO základ</span>
+          <span class="feature-desc">Technický základ pro Google i Seznam.</span>
+        </div>
+        <div class="feature-row" role="listitem">
+          <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v12H8l-4 4V5Z"/><path d="M8 9h8M8 13h5"/></svg></span>
+          <span class="feature-name">Poptávka a rezervace</span>
+          <span class="feature-desc">Jasná cesta od návštěvy ke kontaktu.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDIO -->
+  <section class="section studio" aria-labelledby="studio-heading">
+    <div class="studio-glow" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="studio-inner">
+        <p class="t-label" style="margin-bottom:24px">Studio</p>
+        <blockquote class="studio-quote" id="studio-heading">
+          Malé studio. <em>Plná pozornost</em><br>pro každý projekt.
+        </blockquote>
+        <p class="studio-body">
+          Méně procesů. Více času na výsledek, který skutečně sedí vaší značce.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STYLES -->
+  <section class="section" aria-labelledby="styles-heading">
+    <div class="wrap">
+      <div class="styles-header">
+        <p class="t-label" style="margin-bottom:16px">Vizuální přístup</p>
+        <h2 class="t-h2" id="styles-heading">Dvě firmy ode nás<br>nevypadají stejně.</h2>
+      </div>
+      <div class="styles-grid" role="list">
+        <article class="style-card" role="listitem">
+          <div class="style-preview style-preview-editorial" aria-hidden="true">
+            <div class="style-preview-editorial-lines">
+              <div class="ep-line ep-l1"></div>
+              <div class="ep-line ep-l2"></div>
+              <div class="ep-line ep-l3"></div>
+            </div>
+          </div>
+          <div class="style-body">
+            <p class="style-label">Editorial</p>
+            <h3>Klidné a prémiové</h3>
+            <p>Vzdušný layout a důraz na detail.</p>
+            <div class="style-tags">
+              <span class="style-tag">Ubytování</span>
+              <span class="style-tag">Restaurace</span>
+              <span class="style-tag">Architektura</span>
+            </div>
+          </div>
+        </article>
+        <article class="style-card" role="listitem">
+          <div class="style-preview style-preview-warm" aria-hidden="true">
+            <div class="style-preview-warm-inner">
+              <div class="wp-circle"></div>
+            </div>
+          </div>
+          <div class="style-body">
+            <p class="style-label">Teplé</p>
+            <h3>Vřelé a osobní</h3>
+            <p>Přirozené barvy a lidský charakter.</p>
+            <div class="style-tags">
+              <span class="style-tag">Zdraví & péče</span>
+              <span class="style-tag">Salon</span>
+              <span class="style-tag">Kavárna</span>
+            </div>
+          </div>
+        </article>
+        <article class="style-card" role="listitem">
+          <div class="style-preview style-preview-sharp" aria-hidden="true">
+            <div class="style-preview-sharp-inner">
+              <div class="sp-shape"></div>
+            </div>
+          </div>
+          <div class="style-body">
+            <p class="style-label">Ostré</p>
+            <h3>Výrazné a současné</h3>
+            <p>Silná typografie a jasný kontrast.</p>
+            <div class="style-tags">
+              <span class="style-tag">Řemeslo & stavby</span>
+              <span class="style-tag">Obchod</span>
+              <span class="style-tag">Fitness</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="section pricing" aria-labelledby="pricing-heading">
+    <div class="wrap">
+      <div class="pricing-inner">
+        <div class="pricing-left">
+          <p class="t-label" style="margin-bottom:16px">Cena</p>
+          <h2 class="t-h2" id="pricing-heading">Bez balíčků na oko.</h2>
+          <div style="width:36px;height:2px;background:var(--accent);margin:24px 0;opacity:.5"></div>
+          <p class="t-body">
+            Cena vychází z rozsahu. Vždy ji znáte předem.
+          </p>
+        </div>
+        <div class="pricing-right">
+          <div class="pricing-block">
+            <span class="pricing-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg></span>
+            <div><p class="pricing-block-label">Ukázka</p><p><strong>Zdarma a bez závazku.</strong> Nejdřív uvidíte směr.</p></div>
+          </div>
+          <div class="pricing-block">
+            <span class="pricing-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4zM4 10h16M8 15h4"/></svg></span>
+            <div><p class="pricing-block-label">Cena projektu</p><p><strong>Jasně a předem.</strong> Bez skrytých poplatků.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq" aria-labelledby="faq-heading">
+    <div class="wrap">
+      <div class="faq-header">
+        <p class="t-label" style="margin-bottom:16px">Časté dotazy</p>
+        <h2 class="t-h2" id="faq-heading">Co se ptají nejčastěji.</h2>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>
+            Co když web ještě nemám?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <p class="faq-answer">Nevadí. Začneme od základu a první návrh uvidíte zdarma.</p>
+        </details>
+        <details>
+          <summary>
+            Kolik to stojí?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <p class="faq-answer">Podle rozsahu. Konkrétní cenu znáte před zahájením práce.</p>
+        </details>
+        <details>
+          <summary>
+            Jak dlouho stavba trvá?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <p class="faq-answer">Jednoduchý web obvykle během několika dní. Termín potvrdíme předem.</p>
+        </details>
+        <details>
+          <summary>
+            Bude web na mojí doméně?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <p class="faq-answer">Ano. Web i přístupy zůstávají ve vašich rukou.</p>
+        </details>
+        <details>
+          <summary>
+            Pracujete jen v Praze?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <p class="faq-answer">Ne. Spolupracujeme s firmami po celém Česku, převážně online.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="section-sm cta-banner" aria-label="Výzva k akci">
+    <div class="cta-banner-glow" aria-hidden="true"></div>
+    <div class="wrap cta-banner-inner" style="text-align:center">
+      <p class="t-label" style="margin-bottom:20px">Začněme</p>
+      <h2>Ukázka vašeho webu<br>je zdarma.</h2>
+      <p style="font-size:16px;color:var(--text-2);margin:16px 0 36px;max-width:440px;margin-left:auto;margin-right:auto">
+        Napište nám o své firmě. První směr připravíme bez závazku.
+      </p>
+      <a href="#kontakt" class="btn btn-primary" style="font-size:15px;padding:15px 36px">Chci ukázku zdarma</a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="kontakt" aria-labelledby="contact-heading">
+    <div class="wrap">
+      <div class="contact-grid">
+
+        <!-- Info -->
+        <div class="contact-info">
+          <p class="t-label" style="margin-bottom:16px">Kontakt</p>
+          <h2 class="t-h2" id="contact-heading">Řekněte nám pár slov<br>o firmě.</h2>
+          <p class="t-body" style="margin-top:16px;max-width:380px">
+            Stačí pár základních informací. Ozveme se s dalším krokem.
+          </p>
+          <div class="contact-details">
+            <div class="contact-item">
+              <div class="contact-item-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <p class="contact-item-label">E-mail</p>
+                <a href="mailto:hajekjan96@gmail.com">hajekjan96@gmail.com</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+              </div>
+              <div>
+                <p class="contact-item-label">Telefon</p>
+                <a href="tel:+420731502722">+420 731 502 722</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="contact-form">
+          <form id="contact-form" novalidate aria-label="Formulář pro nezávaznou ukázku">
+
+            <!-- Success state -->
+            <div class="form-state" id="form-success" role="alert" aria-live="polite">
+              <div class="form-state-icon success" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <h3>Díky, mám to.</h3>
+              <p>Ozveme se vám co nejdřív s ukázkou vašeho webu. Většinou do pár dní.</p>
+            </div>
+
+            <!-- Error state -->
+            <div class="form-state" id="form-error" role="alert" aria-live="polite">
+              <div class="form-state-icon error" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <h3>Formulář se teď neodeslal.</h3>
+              <p>Zkuste to prosím znovu, nebo napište přímo na
+                <a href="mailto:hajekjan96@gmail.com" style="color:var(--accent)">hajekjan96@gmail.com</a>
+                či zavolejte na <a href="tel:+420731502722" style="color:var(--accent)">+420 731 502 722</a>.
+              </p>
+            </div>
+
+            <!-- Form fields -->
+            <div id="form-fields">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="firma">Název firmy <span aria-label="povinné pole">*</span></label>
+                  <input class="form-field" type="text" id="firma" name="firma" placeholder="Penzion Na vrcholu" required autocomplete="organization">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="mesto">Město / obec <span aria-label="povinné pole">*</span></label>
+                  <input class="form-field" type="text" id="mesto" name="mesto" placeholder="Praha, Brno…" required autocomplete="address-level2">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="obor">Obor podnikání <span aria-label="povinné pole">*</span></label>
+                  <select class="form-field" id="obor" name="obor" required>
+                    <option value="" disabled selected>Vyberte obor…</option>
+                    <option>Penzion / ubytování</option>
+                    <option>Restaurace / kavárna</option>
+                    <option>Řemeslo / stavby</option>
+                    <option>Ordinace / klinika</option>
+                    <option>Salon / péče o tělo</option>
+                    <option>Obchod / e-shop</option>
+                    <option>Služby</option>
+                    <option>Jiné</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="web-status">Máte web?</label>
+                  <select class="form-field" id="web-status" name="web-status">
+                    <option value="" disabled selected>Vyberte…</option>
+                    <option>Nemám web</option>
+                    <option>Mám, ale nevyhovuje mi</option>
+                    <option>Mám dobrý web</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="odkaz">Odkaz na web nebo profil</label>
+                <input class="form-field" type="url" id="odkaz" name="odkaz" placeholder="https://…" autocomplete="url">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="popis">Pár slov o firmě</label>
+                <textarea class="form-field" id="popis" name="popis" placeholder="Co děláte, kde působíte, co vás trápí na stávajícím webu…"></textarea>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="jmeno">Vaše jméno <span aria-label="povinné pole">*</span></label>
+                  <input class="form-field" type="text" id="jmeno" name="jmeno" placeholder="Jan Novák" required autocomplete="name">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="email">E-mail <span aria-label="povinné pole">*</span></label>
+                  <input class="form-field" type="email" id="email" name="email" placeholder="jan@firma.cz" required autocomplete="email">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="telefon">Telefon</label>
+                <input class="form-field" type="tel" id="telefon" name="telefon" placeholder="+420 000 000 000" autocomplete="tel">
+              </div>
+              <button type="submit" class="btn btn-primary form-submit" id="form-btn">
+                <span id="form-btn-text">Odeslat poptávku</span>
+                <svg id="form-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:none;animation:spin .7s linear infinite" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              </button>
+              <p class="form-footer-note">Nezávazně. Ozveme se s ukázkou.</p>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer role="contentinfo">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="Rukopis_logo.png" alt="Rukopis Studio" class="footer-logo">
+        <p class="footer-tagline">Weby na míru pro lokální firmy. Po celém Česku.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Kontakt</p>
+        <div class="footer-links">
+          <a href="mailto:hajekjan96@gmail.com">hajekjan96@gmail.com</a>
+          <a href="tel:+420731502722">+420 731 502 722</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Navigace</p>
+        <div class="footer-links">
+          <a href="#jak">Jak to funguje</a>
+          <a href="#sluzby">Služby</a>
+          <a href="#faq">FAQ</a>
+          <a href="#kontakt">Ukázka zdarma</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Rukopis Studio · Každá firma má svůj rukopis.</p>
+      <p class="footer-accent">rukopis.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ── SCRIPTS ─────────────────────────────────────────── -->
+<style>
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+<script>
+(function() {
+  'use strict';
+
+  /* ── NAV scroll ───────────────────────────────────── */
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 48);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ── Mobile nav ───────────────────────────────────── */
+  const toggle = document.getElementById('nav-toggle');
+  const mobileNav = document.getElementById('nav-mobile');
+  let mobileOpen = false;
+
+  function setMobileNav(open) {
+    mobileOpen = open;
+    mobileNav.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  toggle.addEventListener('click', () => setMobileNav(!mobileOpen));
+  document.querySelectorAll('.nav-m-link, .nav-mobile .btn').forEach(el => {
+    el.addEventListener('click', () => setMobileNav(false));
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && mobileOpen) setMobileNav(false);
+  });
+
+  /* ── Hero canvas animation ────────────────────────── */
+  const canvas = document.getElementById('hero-canvas');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobile = window.matchMedia('(max-width: 760px)').matches;
+
+  if (canvas && !prefersReduced) {
+    const ctx = canvas.getContext('2d');
+    const ACCENT = [21, 206, 197];
+    let W, H, dpr, particles, mouse, rafId;
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = canvas.offsetWidth;
+      H = canvas.offsetHeight;
+      canvas.width  = W * dpr;
+      canvas.height = H * dpr;
+      ctx.scale(dpr, dpr);
+      initParticles();
+    }
+
+    function initParticles() {
+      const count = isMobile ? 28 : 48;
+      particles = Array.from({ length: count }, () => ({
+        x:  Math.random() * W,
+        y:  Math.random() * H,
+        ox: 0, oy: 0,
+        vx: (Math.random() - .5) * .35,
+        vy: (Math.random() - .5) * .35,
+        r:  1.2 + Math.random() * 1.2,
+        phase: Math.random() * Math.PI * 2,
+        speed: .0004 + Math.random() * .0004,
+        amp:   12 + Math.random() * 18,
+      }));
+    }
+
+    mouse = { x: W / 2, y: H / 2 };
+
+    function draw(ts) {
+      ctx.clearRect(0, 0, W, H);
+
+      particles.forEach(p => {
+        // Organic drift
+        p.ox = Math.sin(ts * p.speed + p.phase) * p.amp;
+        p.oy = Math.cos(ts * p.speed * .7 + p.phase + 1) * p.amp;
+        const nx = p.x + p.ox;
+        const ny = p.y + p.oy;
+
+        // Gentle mouse attraction
+        if (!isMobile) {
+          const dx = mouse.x - nx;
+          const dy = mouse.y - ny;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 180) {
+            const force = (1 - dist / 180) * .018;
+            p.vx += dx * force;
+            p.vy += dy * force;
+          }
+        }
+        p.vx *= .94;
+        p.vy *= .94;
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Wrap
+        if (p.x < -20) p.x = W + 20;
+        if (p.x > W + 20) p.x = -20;
+        if (p.y < -20) p.y = H + 20;
+        if (p.y > H + 20) p.y = -20;
+      });
+
+      // Draw connections
+      const CONNECT_DIST = isMobile ? 100 : 130;
+      for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
+        const ax = a.x + a.ox, ay = a.y + a.oy;
+        for (let j = i + 1; j < particles.length; j++) {
+          const b = particles[j];
+          const bx = b.x + b.ox, by = b.y + b.oy;
+          const dx = ax - bx, dy = ay - by;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < CONNECT_DIST) {
+            const alpha = (1 - d / CONNECT_DIST) * .10;
+            ctx.beginPath();
+            ctx.moveTo(ax, ay);
+            ctx.lineTo(bx, by);
+            ctx.strokeStyle = `rgba(${ACCENT[0]},${ACCENT[1]},${ACCENT[2]},${alpha})`;
+            ctx.lineWidth = .7;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw dots
+      particles.forEach(p => {
+        const px = p.x + p.ox, py = p.y + p.oy;
+        const grd = ctx.createRadialGradient(px, py, 0, px, py, p.r * 3.5);
+        grd.addColorStop(0, `rgba(${ACCENT[0]},${ACCENT[1]},${ACCENT[2]},.55)`);
+        grd.addColorStop(1, `rgba(${ACCENT[0]},${ACCENT[1]},${ACCENT[2]},0)`);
+        ctx.beginPath();
+        ctx.arc(px, py, p.r * 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = grd;
+        ctx.fill();
+      });
+
+      rafId = requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(rafId);
+      resize();
+      rafId = requestAnimationFrame(draw);
+    }, { passive: true });
+
+    if (!isMobile) {
+      const hero = canvas.closest('.hero');
+      hero.addEventListener('mousemove', e => {
+        const rect = hero.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      }, { passive: true });
+    }
+
+    resize();
+    rafId = requestAnimationFrame(draw);
+  }
+
+  /* ── Intersection observer for animate-in ─────────── */
+  const animEls = document.querySelectorAll('.animate-in');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.style.animationPlayState = 'running'; io.unobserve(e.target); }
+      });
+    }, { threshold: .15 });
+    animEls.forEach(el => {
+      el.style.animationPlayState = 'paused';
+      io.observe(el);
+    });
+  } else {
+    animEls.forEach(el => el.style.opacity = '1');
+  }
+
+  /* ── Form ─────────────────────────────────────────── */
+  const form   = document.getElementById('contact-form');
+  const fields = document.getElementById('form-fields');
+  const btn    = document.getElementById('form-btn');
+  const btnTxt = document.getElementById('form-btn-text');
+  const spinner= document.getElementById('form-spinner');
+  const success= document.getElementById('form-success');
+  const error  = document.getElementById('form-error');
+
+  function setLoading(v) {
+    btn.disabled = v;
+    btnTxt.textContent = v ? 'Odesílám…' : 'Odeslat poptávku';
+    spinner.style.display = v ? 'inline-block' : 'none';
+  }
+
+  function showState(el) {
+    fields.style.display = 'none';
+    el.classList.add('is-visible');
+    el.focus();
+  }
+
+  function validateField(el) {
+    const ok = el.checkValidity();
+    el.classList.toggle('has-error', !ok);
+    return ok;
+  }
+
+  form.querySelectorAll('[required]').forEach(el => {
+    el.addEventListener('blur', () => validateField(el));
+    el.addEventListener('input', () => {
+      if (el.classList.contains('has-error')) validateField(el);
+    });
+  });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    let valid = true;
+    form.querySelectorAll('[required]').forEach(el => { if (!validateField(el)) valid = false; });
+    if (!valid) { form.querySelector('.has-error')?.focus(); return; }
+
+    setLoading(true);
+
+    try {
+      // Replace this URL with your actual form endpoint (Netlify Forms, Formspree, etc.)
+      const res = await fetch(form.action || '/_submit', {
+        method: 'POST',
+        body: new FormData(form),
+      });
+      if (!res.ok) throw new Error('submit failed');
+      showState(success);
+    } catch {
+      // Fallback: show error state
+      setLoading(false);
+      showState(error);
+    }
+  });
+
+})();
+
+  /* ── Motto handwriting animation ──────────────────── */
+  (function initMotto() {
+    const h1 = document.querySelector('.hero h1');
+    if (!h1 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const DUR     = 1100;
+    const BASE    = 340;
+    const STAGGER = 680;
+    const EASE    = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
+    const nodes = Array.from(h1.childNodes);
+    h1.innerHTML = '';
+
+    function makeLineWrap(text) {
+      const wrap = document.createElement('span');
+      wrap.className = 'motto-line-wrap';
+      const line = document.createElement('span');
+      line.className = 'motto-line';
+      line.textContent = text;
+      const tip = document.createElement('span');
+      tip.className = 'motto-tip';
+      tip.setAttribute('aria-hidden', 'true');
+      wrap.appendChild(line);
+      wrap.appendChild(tip);
+      return wrap;
+    }
+
+    nodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+        h1.appendChild(makeLineWrap(node.textContent));
+      }
+    });
+
+    document.fonts.ready.then(() => requestAnimationFrame(() => {
+      h1.querySelectorAll('.motto-line-wrap').forEach((wrap, i) => {
+        const line  = wrap.querySelector('.motto-line');
+        const tip   = wrap.querySelector('.motto-tip');
+        const delay = BASE + i * STAGGER;
+        const w     = line.getBoundingClientRect().width;
+
+        line.style.animation = `line-write ${DUR}ms ${EASE} ${delay}ms forwards`;
+
+        if (tip.animate) {
+          tip.animate([
+            { transform: 'translateX(0px)',        opacity: 0, offset: 0    },
+            { transform: 'translateX(4px)',         opacity: 1, offset: 0.03 },
+            { transform: `translateX(${w - 3}px)`, opacity: 1, offset: 0.93 },
+            { transform: `translateX(${w}px)`,     opacity: 0, offset: 1    },
+          ], { duration: DUR, delay, fill: 'forwards', easing: EASE });
+        }
+      });
+    }));
+  })();
+</script>
+
+</body>
+</html>
